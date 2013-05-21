@@ -1,0 +1,125 @@
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2013, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Portal</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="host">
+    <div class="hero-unit">
+        <h1>Simple Portal</h1>
+
+        <p>An example portal using ajax to dispatch requests to GateIn PC (embed).</p>
+    </div>
+
+    <!-- Single row layout -->
+    <div class="row" id="portlet-container">
+        <div class="span4">
+            <h2>Portlet A</h2>
+
+            <div data-portlet="PortletA">
+            </div>
+        </div>
+        <div class="span4">
+            <h2>Portlet B</h2>
+
+            <div data-portlet="PortletB">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2013 Red Hat, Inc. All rights reserved.</p>
+    </footer>
+
+</div>
+
+<script src="js/jquery.js"></script>
+<script>
+    var divs = [];
+    $(document).ready(function () {
+        divs = $('[data-portlet]');
+        var url = "embed";
+        for (var i = 0; i<divs.length; i++) {
+            var portletName = divs[i].getAttribute('data-portlet');
+            url = url + "/" + portletName;
+        }
+
+        $.get(url, callback);
+    });
+
+    function parse(li, div) {
+        div.innerHTML = li.innerHTML;
+        var links = $(div).find("a").filter(function() {
+            return this.href.indexOf("embed") != -1;
+        });
+
+        for (var i=0; i<links.length; i++) {
+            var url = links[i].href;
+            url = url.substring(url.indexOf("/embed/") + 1);
+            bindLink(links[i], url);
+        }
+    }
+
+    function bindLink(link, url) {
+        link.href = "#";
+        $(link).on("click", function() {
+            $.get(url, callback);
+        })
+    }
+
+    function callback(data) {
+        var list = $(data).find("li");
+        for (var i=0; i<list.length; i++) {
+            parse(list[i], divs[i]);
+        }
+    }
+</script>
+</body>
+</html>
