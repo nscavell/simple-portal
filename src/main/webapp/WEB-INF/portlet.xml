@@ -24,30 +24,52 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
    http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
     <portlet>
-        <description>Portlet A Portlet</description>
         <portlet-name>PortletA</portlet-name>
-        <display-name>PortletA Portlet</display-name>
         <portlet-class>org.gatein.portal.simple.portlet.PortletA</portlet-class>
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
         </supports>
         <portlet-info>
-            <title>Portlet A Portlet</title>
+            <title>Portlet A</title>
         </portlet-info>
     </portlet>
 
     <portlet>
-        <description>Portlet B Portlet</description>
         <portlet-name>PortletB</portlet-name>
-        <display-name>PortletB Portlet</display-name>
         <portlet-class>org.gatein.portal.simple.portlet.PortletB</portlet-class>
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
         </supports>
         <portlet-info>
-            <title>Portlet B Portlet</title>
+            <title>Portlet B</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>PortletC</portlet-name>
+        <portlet-class>org.gatein.portal.simple.portlet.PortletC</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Portlet C</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>JSPPortlet</portlet-name>
+        <portlet-class>org.gatein.portal.simple.portlet.JSPPortlet</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>JSP Portlet</title>
         </portlet-info>
     </portlet>
 </portlet-app>

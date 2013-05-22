@@ -22,11 +22,8 @@
 
 package org.gatein.portal.simple.portlet;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
@@ -37,29 +34,13 @@ import java.io.PrintWriter;
  */
 public class PortletA extends GenericPortlet {
 
-    private volatile int count;
-
     @Override
     protected void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-        PrintWriter writer = response.getWriter();
-        writer.write("This is Portlet A <br/>");
-        if (request.getParameter("renderA") != null) {
-            writer.write("Action invoked " + count + " time(s).");
-            writer.write("<p></p>");
-            PortletURL url = response.createRenderURL();
-            writer.write("<a href='" + url + "' id='url'>Try Again</a>");
-        }
-        else {
-            PortletURL url = response.createActionURL();
-            response.setContentType("text/html");
-            writer.write("<a href='" + url + "' id='url'>Click Me</a>");
-        }
-        writer.close();
-    }
+        response.setContentType("text/html");
 
-    @Override
-    public void processAction(ActionRequest request, ActionResponse response) throws PortletException, IOException {
-        response.setRenderParameter("renderA", "foo");
-        count++;
+        // Write content
+        PrintWriter writer = response.getWriter();
+        writer.write("Simple hello world, that does nothing.");
+        writer.close();
     }
 }

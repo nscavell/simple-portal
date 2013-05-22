@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div class="container" id="host">
+<div class="container">
     <div class="hero-unit">
         <h1>Simple Portal</h1>
 
@@ -57,17 +57,37 @@
     </div>
 
     <!-- Single row layout -->
-    <div class="row" id="portlet-container">
+    <div class="row">
         <div class="span4">
             <h2>Portlet A</h2>
+            <hr>
 
             <div data-portlet="PortletA">
             </div>
         </div>
         <div class="span4">
             <h2>Portlet B</h2>
+            <hr>
 
             <div data-portlet="PortletB">
+            </div>
+        </div>
+
+        <div class="span4">
+            <h2>Portlet C</h2>
+            <hr>
+
+            <div data-portlet="PortletC">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <h2>JSP Portlet</h2>
+            <hr>
+
+            <div data-portlet="JSPPortlet">
             </div>
         </div>
     </div>
@@ -86,7 +106,7 @@
     $(document).ready(function () {
         divs = $('[data-portlet]');
         var url = "embed";
-        for (var i = 0; i<divs.length; i++) {
+        for (var i = 0; i < divs.length; i++) {
             var portletName = divs[i].getAttribute('data-portlet');
             url = url + "/" + portletName;
         }
@@ -94,30 +114,34 @@
         $.get(url, callback);
     });
 
-    function parse(li, div) {
-        div.innerHTML = li.innerHTML;
-        var links = $(div).find("a").filter(function() {
-            return this.href.indexOf("embed") != -1;
+    function parse(div) {
+
+        $("a", div).filter(function() {
+            return this.href.indexOf("/embed/") != -1;
+        })
+        .each(function() {
+            $(this).on("click", function(event) {
+                event.preventDefault();
+                $.get(this.href, callback);
+            })
         });
 
-        for (var i=0; i<links.length; i++) {
-            var url = links[i].href;
-            url = url.substring(url.indexOf("/embed/") + 1);
-            bindLink(links[i], url);
-        }
-    }
-
-    function bindLink(link, url) {
-        link.href = "#";
-        $(link).on("click", function() {
-            $.get(url, callback);
+        $("form", div).filter(function() {
+            return this.action.indexOf("/embed/") != -1;
         })
+        .each(function() {
+            $(this).on("submit", function(event) {
+                event.preventDefault();
+                $.post(this.action, $(this).serialize(), callback);
+            })
+        });
     }
 
     function callback(data) {
-        var list = $(data).find("li");
-        for (var i=0; i<list.length; i++) {
-            parse(list[i], divs[i]);
+        var list = $(data).children("li");
+        for (var i = 0; i < list.length; i++) {
+            $(divs[i]).html($(list[i]).html());
+            parse(divs[i]);
         }
     }
 </script>

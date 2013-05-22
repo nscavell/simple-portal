@@ -26,54 +26,33 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
+import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @author <a href="mailto:nscavell@redhat.com">Nick Scavelli</a>
  */
-public class PortletB extends GenericPortlet {
+public class JSPPortlet extends GenericPortlet {
 
-    private volatile int count;
-
-    @Override
-    protected void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
+    public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
         response.setContentType("text/html");
 
-        // Write content
-        PrintWriter writer = response.getWriter();
-        writer.write("Portlet which counts action requests.");
-        writer.write("<div style='padding-top: 20px'></div>");
-
-        writer.write("Action invoked " + count + " time(s).<br>");
-        writer.write("<span style=\"padding-right: 40px\">");
-
-        // Count action
-        PortletURL invokeUrl = response.createActionURL();
-        invokeUrl.setParameter("invoke", "true");
-        writer.write("<a href='" + invokeUrl + "' id='countUrl'>Invoke Action</a>");
-
-        writer.write("</span><span>");
-
-        // Reset action
-        PortletURL resetUrl = response.createActionURL();
-        resetUrl.setParameter("reset", "true");
-        writer.write("<a href='" + resetUrl + "' id='resetUrl'>Reset</a>");
-
-        writer.write("</span>");
-        writer.close();
+        // Forward to jsp
+        String name = request.getParameter("name");
+        if (name != null) {
+            PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/jsp/hello.jsp");
+            prd.include(request, response);
+        }
+        else {
+            PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher("/jsp/welcome.jsp");
+            prd.include(request, response);
+        }
     }
 
-    @Override
-    public void processAction(ActionRequest request, ActionResponse response) throws PortletException, IOException {
-        if (request.getParameter("reset") != null) {
-            count = 0;
-        }
-        else if (request.getParameter("invoke") != null) {
-            count++;
-        }
+    public void processAction(ActionRequest aRequest, ActionResponse aResponse) throws PortletException, IOException {
+        String name = aRequest.getParameter("name");
+        aResponse.setRenderParameter("name", name);
     }
 }
