@@ -82,12 +82,20 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="span12">
+    <div class="row" style="padding-top: 20px">
+        <div class="span6">
             <h2>JSP Portlet</h2>
             <hr>
 
             <div data-portlet="JSPPortlet">
+            </div>
+        </div>
+
+        <div class="span6">
+            <h2>JSF Portlet</h2>
+            <hr>
+
+            <div data-portlet="JSFPortlet">
             </div>
         </div>
     </div>
@@ -100,7 +108,8 @@
 
 </div>
 
-<script src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
 <script>
     var divs = [];
     $(document).ready(function () {
@@ -130,19 +139,16 @@
             return this.action.indexOf("/embed/") != -1;
         })
         .each(function() {
-            $(this).on("submit", function(event) {
-                event.preventDefault();
-                $.post(this.action, $(this).serialize(), callback);
-            })
+            $(this).ajaxForm(callback);
         });
     }
 
     function callback(data) {
-        var list = $(data).children("li");
-        for (var i = 0; i < list.length; i++) {
-            $(divs[i]).html($(list[i]).html());
-            parse(divs[i]);
-        }
+        var i = 0;
+        $(data).children("li").each(function () {
+            $(divs[i]).html($(this).contents());
+            parse(divs[i++]);
+        });
     }
 </script>
 </body>

@@ -1,6 +1,4 @@
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
-<%--
+<!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2013, Red Hat, Inc., and individual contributors
   ~ as indicated by the @author tags. See the copyright.txt file in the
@@ -20,21 +18,24 @@
   ~ License along with this software; if not, write to the Free
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-  --%>
+  -->
 
-<div class="portlet-section-header">Simple JSP Hello World</div>
-
-<br/>
-
-<div class="portlet-font">
-    Hello, what is your name ?
-</div>
-
-<br/>
-
-<portlet:actionURL var="myActionURL"/>
-<form action="<%= myActionURL %>" method="POST">
-         <span class="portlet-form-field-label">Name:</span>
-         <input class="portlet-form-input-field" type="text" name="name"/>
-         <input class="portlet-form-button" type="Submit"/>
-</form>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd" version="2.0">
+    <navigation-rule>
+        <from-view-id>/jsf/welcome.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{helloBean.submit}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/jsf/hello.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/jsf/hello.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{helloBean.reset}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/jsf/welcome.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+</faces-config>

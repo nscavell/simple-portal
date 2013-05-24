@@ -72,4 +72,20 @@
             <title>JSP Portlet</title>
         </portlet-info>
     </portlet>
+
+    <portlet>
+        <portlet-name>JSFPortlet</portlet-name>
+        <portlet-class>javax.portlet.faces.GenericFacesPortlet</portlet-class>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/jsf/welcome.xhtml</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>JSF Portlet</title>
+        </portlet-info>
+    </portlet>
 </portlet-app>

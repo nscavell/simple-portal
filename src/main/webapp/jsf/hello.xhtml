@@ -1,0 +1,11 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <h:body>
+        Hello <h:outputText value="#{helloBean.name}"/> !
+
+        <div style="padding-bottom: 10px"></div>
+
+        <h:form>
+            <h:commandButton id="submit" value="Try again" action="#{helloBean.reset}"/>
+        </h:form>
+    </h:body>
+</f:view>
