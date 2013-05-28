@@ -6,7 +6,7 @@ Example usage of GateIn PC
 Building
 -----------
 
-mvn clean package
+```mvn clean package```
 
 Deploying to JBoss AS
 -----------
